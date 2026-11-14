@@ -1,0 +1,1714 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1918">
+<title>超级圣诞树 · Ahuo Cheng</title>
+<style>
+:root{color-scheme:dark;--ink:#fff5df;--gold:#ffdc98;--muted:#b7c9c3;--edge:#abcfc02d;--panel:#101d1c;--green:#adffd3;font-family:"DM Sans","Microsoft YaHei",system-ui,sans-serif}*{box-sizing:border-box}body{margin:0;background:#081312;color:var(--ink);min-width:300px}button,input{font:inherit}button{cursor:pointer;color:inherit;touch-action:manipulation}button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}[hidden]{display:none!important}.app{max-width:600px;margin:auto;min-height:100svh;position:relative;isolation:isolate;background:#0c1918;overflow:hidden;box-shadow:0 0 90px #0008}.scene{position:relative;height:clamp(300px,53svh,625px);overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#264b3e,#132d29 48%,#091715 80%);transition:height .7s ease}.scene:after{content:"";position:absolute;inset:auto 0 0;height:100px;pointer-events:none;background:linear-gradient(transparent,#0c1918)}canvas{display:block;width:100%;height:100%;touch-action:pan-y}.top{position:absolute;z-index:1;inset:0 0 auto;padding:max(18px,env(safe-area-inset-top)) 19px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}.brand{display:flex;align-items:center;gap:9px;color:#f7dfaa;font:700 14px Georgia,serif;letter-spacing:.08em}.brand i{font-style:normal;font-size:21px}.ghost{border:1px solid #e8d3a347;border-radius:999px;padding:9px 15px;background:#172825dd;min-height:42px;pointer-events:auto;white-space:nowrap}.ghost:hover{background:#243c34}.altitude{position:absolute;z-index:1;bottom:21px;left:20px;display:flex;align-items:baseline;gap:6px;color:var(--gold);text-shadow:0 2px 10px #000}.altitude strong{font:700 32px Georgia,serif;font-variant-numeric:tabular-nums}.altitude span{font-size:13px}.float{position:absolute;z-index:1;left:50%;top:35%;transform:translateX(-50%);font:700 47px Georgia,serif;color:#ffe3a8;pointer-events:none;text-shadow:0 0 24px #e7a54f;opacity:0}.float.play{animation:rise .95s ease-out}@keyframes rise{0%{opacity:0;transform:translate(-50%,22px) scale(.8)}25%{opacity:1}100%{opacity:0;transform:translate(-50%,-48px) scale(1.16)}}.content{position:relative;z-index:2;padding:0 20px calc(24px + env(safe-area-inset-bottom));margin-top:-2px}.intro{text-align:center;padding:0 0 6px}.intro h1{font:700 clamp(36px,8.5vw,61px)/1.05 Georgia,"Songti SC","SimSun",serif;letter-spacing:.025em;margin:0;color:#fff1ce}.intro p{margin:12px 0 22px;font-size:16px;color:var(--muted)}.start-form{display:grid;gap:10px;max-width:400px;margin:0 auto}.start-form input{width:100%;min-height:54px;border:1px solid #8aa89f57;background:#142724;border-radius:15px;color:var(--ink);padding:0 16px;font-size:16px}.start-form input::placeholder{color:#a8bab4}.gold{color:#241705;border:0;border-radius:14px;min-height:52px;padding:11px 19px;background:linear-gradient(112deg,#f7d089,#ffe9b4 55%,#efbc66);font-size:17px;font-weight:800;box-shadow:0 4px 14px #e7aa422d}.gold:active,.option:active{transform:scale(.985)}.quiz{border:1px solid var(--edge);border-radius:21px;padding:16px;background:linear-gradient(145deg,#182924,#11201e);box-shadow:0 16px 45px #0004}.progress-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px;color:#d0e0d8}.meter{height:4px;margin:10px 0 15px;border-radius:5px;background:#aec3b32b;overflow:hidden}.meter div{height:100%;background:linear-gradient(90deg,#e2b866,#ffdfaa);transition:width .4s}.quiz h2{font-size:clamp(19px,5vw,25px);line-height:1.4;margin:0 0 13px;font-weight:750;outline:none}.options{display:grid;gap:8px}.option{width:100%;border-radius:13px;border:1px solid #b2c6bc2f;background:#233832;text-align:left;display:flex;align-items:center;gap:11px;min-height:52px;padding:9px 10px;line-height:1.35;transition:background .2s,transform .14s,border-color .2s;font-size:16px}.option span{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;background:#ffffff12;color:#f4d99d;font-weight:700}.option:hover:not(:disabled){border-color:#ffd98f90}.option.correct{background:#245041;border-color:#8ff4bc;color:#edfff3}.option.wrong{background:#52312f;border-color:#f9a69c;color:#ffefea}.option:disabled{cursor:default}.feedback{display:flex;gap:9px;justify-content:space-between;align-items:center;margin-top:12px}.feedback p{color:var(--muted);font-size:14px;line-height:1.4;margin:0;flex:1}.feedback .gold{min-height:44px;white-space:nowrap;font-size:15px}.result{text-align:center}.result h2{margin:4px 0;font-size:28px}.result strong{display:block;font:700 clamp(62px,17vw,100px)/1 Georgia,serif;color:var(--gold);margin:12px 0}.result p{color:var(--muted);margin:6px 0 17px}.result .gold{width:100%;margin:6px 0 10px}.rank-btn{width:100%}.notice{color:#ffd29c;font-size:14px;line-height:1.5;text-align:center;margin:11px 0 0}.notice button{margin-top:4px}dialog{padding:20px;margin:auto;max-height:min(80svh,670px);width:min(92vw,460px);border-radius:22px;background:#132621;color:var(--ink);border:1px solid #e9cf8854;box-shadow:0 30px 100px #000a}dialog::backdrop{background:#030d0bdd;backdrop-filter:blur(6px)}.board-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.board-head h2{margin:0;font-size:25px}.board-note{color:var(--muted);margin:12px 0;font-size:14px}.board{list-style:none;padding:0;margin:0;display:grid;gap:6px}.board li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:9px;align-items:center;padding:11px 9px;border-radius:11px;background:#ffffff0b}.board li.mine{background:#ffdc981c;outline:1px solid #ffdc9855}.board li span:nth-child(2){overflow-wrap:anywhere}.board b{color:var(--gold)}.board .rank{font-variant-numeric:tabular-nums;color:#dfca98}.live{color:#adffd3}@media(max-height:730px){.scene{height:clamp(235px,45svh,430px)}.content{padding-inline:14px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+.options{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.option{height:100%;min-width:0;min-height:112px;align-items:flex-start;flex-direction:column;justify-content:center;gap:8px;padding:12px;overflow-wrap:anywhere}.feedback{display:block;min-height:20px;margin-top:10px}.feedback p{font-size:15px}.feedback p[data-correct='true']{color:var(--green)}.feedback p[data-correct='false']{color:#ffc1ad}.option:disabled{opacity:1}.progress-head span:last-child{overflow-wrap:anywhere;text-align:right}.animal-inline{margin-right:6px}
+
+.quiz{padding:clamp(17px,4vw,24px);border-radius:24px}.quiz h2{margin-bottom:18px;font-weight:800}.progress-head{font-weight:650}.progress-head span:first-child{color:var(--gold)}
+.options{gap:12px}.option{min-height:130px;justify-content:flex-start;background:linear-gradient(145deg,#30483d,#1b302a);padding:14px;font-weight:650}.option span{width:29px;height:29px;background:#e9d5971a}
+.duel-banner{position:absolute;right:15px;bottom:16px;z-index:2;max-width:66%;min-height:49px;padding:9px 14px;border:1px solid #ffdaa586;background:#293b31f5;border-radius:15px;box-shadow:0 5px 21px #0007;color:var(--gold);font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.duel-modal{padding:clamp(18px,5vw,27px);border-radius:24px;background:radial-gradient(ellipse at 55% 0,#344739,#162a24 67%);width:min(93vw,480px)}.duel-modal h2{margin:20px 0 11px;overflow-wrap:anywhere}.duel-modal p{font-size:16px;line-height:1.5;color:#e3eadc;margin:0 0 17px}
+.hands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.hands button{display:grid;justify-items:center;align-content:center;gap:5px;min-height:78px;border:1px solid #f0d29b65;background:#263e35;border-radius:14px;padding:8px 3px;font-weight:750}.hands button:hover{background:#3a5448}.hands button[aria-pressed="true"]{border-color:#ffe3a4;background:#624d2e}.hand-icon{font:30px/1.1 "Apple Color Emoji","Segoe UI Emoji",sans-serif}
+.guard{max-width:450px;margin:16px auto 12px;padding:14px;border:1px solid #f3d39644;border-radius:17px;background:#1a2e28}.guard h3{font-size:17px;margin:0 0 11px}.guard .hands button{min-height:68px}
+.duel-outcome{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;gap:8px;padding:12px 0;animation:reveal .35s ease-out}.duel-outcome span,.duel-outcome strong{display:block;overflow-wrap:anywhere}.duel-outcome .hand-icon{font-size:42px;margin-bottom:8px}.duel-continue{width:100%;margin-top:12px}
+@keyframes reveal{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@media(max-width:350px){.option{padding:10px}.options{gap:8px}.duel-banner{right:10px}}
+canvas{touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.camera-home{position:absolute;z-index:2;right:15px;top:73px;min-height:42px;box-shadow:0 4px 15px #0006}.scene:after{height:64px;opacity:.85}
+.top-actions{display:flex;gap:6px;align-items:center}.sound-toggle{font-size:19px;line-height:1;width:42px;padding:0;color:var(--gold)}.sound-toggle[aria-pressed="false"]{color:#bdc9be;opacity:.67}.scene .top{gap:6px}@media(max-width:355px){.top{padding-inline:12px}.top .ghost:not(.sound-toggle){padding-inline:9px}.top .brand{gap:4px}}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="scene">
+    <canvas id="tree" aria-label="可拖动旋转的立体圣诞树"></canvas>
+    <header class="top"><span class="brand"><i aria-hidden="true">✦</i> Ahuo Cheng</span><div class="top-actions"><button class="ghost sound-toggle" id="sound" type="button" aria-label="关闭音乐和音效" aria-pressed="true">♫</button><button class="ghost" id="open-board" type="button">好友排行</button></div></header>
+    <button class="ghost camera-home" id="camera-home" type="button" hidden>回到我</button>
+    <div class="altitude" id="altitude" hidden><strong id="height">0</strong><span>/ 100 格</span></div>
+    <button class="duel-banner" id="open-duel" type="button" hidden></button>
+    <div class="float" id="float" aria-hidden="true">+1</div>
+  </div>
+  <div class="content">
+    <section class="intro" id="intro">
+      <h1>超级圣诞树</h1>
+      <p>你有多了解 Ahuo Cheng？</p>
+      <form class="start-form" id="start-form">
+        <input id="nickname" aria-label="你的昵称" placeholder="输入你的昵称" maxlength="24" autocomplete="nickname" required>
+        <button class="gold" type="submit">开始攀登 <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+    <section class="quiz" id="quiz" hidden>
+      <div class="progress-head"><span id="step"></span><span id="player-name"></span></div>
+      <div class="meter" aria-hidden="true"><div id="meter"></div></div>
+      <h2 id="question" tabindex="-1"></h2>
+      <div class="options" id="options"></div>
+      <div class="feedback"><p id="feedback-text" role="status"></p></div>
+    </section>
+    <section class="result" id="result" hidden>
+      <h2 id="result-title" tabindex="-1"></h2>
+      <strong id="result-score"></strong><p id="result-rank"></p>
+      <button class="gold" id="result-board" type="button">好友排行</button>
+      <section class="guard" aria-labelledby="guard-title"><h3 id="guard-title">留下你的守格手势</h3><div class="hands" id="defense-hands"></div></section>
+      <button class="ghost" id="restart" type="button">再爬一次</button>
+    </section>
+    <div class="notice" id="sync-notice" hidden><span role="status">成绩尚未同步</span> <button class="ghost" id="retry" type="button">重试</button></div>
+  </div>
+</main>
+<dialog id="leaderboard" aria-labelledby="board-title">
+  <div class="board-head"><h2 id="board-title">好友排行</h2><button class="ghost" id="close-board" type="button">关闭</button></div>
+  <p class="board-note" id="board-note" role="status"></p>
+  <ol class="board" id="board-list"></ol>
+</dialog>
+<dialog class="duel-modal" id="duel" aria-labelledby="duel-title">
+  <header class="board-head"><strong id="duel-level"></strong><button class="ghost" id="dismiss-duel" type="button">关闭</button></header>
+  <h2 id="duel-title"></h2><p id="duel-copy" role="status"></p>
+  <div class="hands" id="duel-actions"></div><div class="duel-outcome" id="duel-outcome" hidden></div>
+  <button class="gold duel-continue" id="duel-continue" type="button" hidden>继续 →</button>
+</dialog>
+<script>
+const CLOUD = {
+  url: "",
+  publishableKey: ""
+};
+const QUESTIONS = [
+  {
+    "title": "早餐我选哪套？",
+    "choices": [
+      "包子和豆浆",
+      "面包和牛奶"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我睡醒先做什么？",
+    "choices": [
+      "拉开窗帘",
+      "在床上再躺一会儿"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我出门前更容易检查哪样？",
+    "choices": [
+      "手机在不在身上",
+      "门有没有锁好"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我手机快没电了怎么办？",
+    "choices": [
+      "找个地方充一会儿",
+      "开省电模式继续用"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我吃面先做什么？",
+    "choices": [
+      "尝一口原汤",
+      "把调料拌匀"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我奶茶到手怎么办？",
+    "choices": [
+      "边走边喝",
+      "坐下慢慢喝"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我下雨天在家想做什么？",
+    "choices": [
+      "听一会儿雨",
+      "看一部收藏的片子"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我睡前更可能点开什么？",
+    "choices": [
+      "一串短视频",
+      "一部没看完的长视频"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我怎么发一件复杂的事？",
+    "choices": [
+      "写全了再发一条",
+      "想到一句发一句"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我零食拿到手怎么吃？",
+    "choices": [
+      "先拆开尝一口",
+      "坐下后再拆"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我桌面和床边都乱，先收哪儿？",
+    "choices": [
+      "桌面",
+      "床边"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我遇到好听的歌怎么办？",
+    "choices": [
+      "先循环几遍",
+      "放进歌单接着听"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我快递到了会怎样？",
+    "choices": [
+      "拿到就拆",
+      "等有空了再拆"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我朋友问吃什么时会怎么说？",
+    "choices": [
+      "推荐一家最近想去的",
+      "先问大家的意见"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我在餐馆更喜欢坐哪儿？",
+    "choices": [
+      "靠窗",
+      "里面安静的位置"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我等菜时想做什么？",
+    "choices": [
+      "聊聊最近的事",
+      "看看店里的摆设"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我热天进便利店买什么？",
+    "choices": [
+      "冰矿泉水",
+      "无糖冰茶"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我冷天想喝什么？",
+    "choices": [
+      "热豆浆",
+      "热可可"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我有大小份时怎么点？",
+    "choices": [
+      "小份再搭点别的",
+      "大份，把一种吃过瘾"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我约朋友早上见面怎么到？",
+    "choices": [
+      "提前几分钟",
+      "卡着点到"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我暂时没空回消息怎么办？",
+    "choices": [
+      "先回一句晚点说",
+      "等有空再完整回复"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我收到长语音会怎么处理？",
+    "choices": [
+      "戴耳机听原声",
+      "先转文字扫一眼"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我群里看到搞笑照片会怎么回？",
+    "choices": [
+      "丢一个表情包",
+      "直接打一行字"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我朋友发老照片，先看什么？",
+    "choices": [
+      "大家的表情",
+      "照片里已经变样的地方"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我路遇一只猫会怎么办？",
+    "choices": [
+      "停一下看看它",
+      "拍张照片再走"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我午后空出一小时想做什么？",
+    "choices": [
+      "出门绕一圈",
+      "找个地方坐着发呆"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我什么让我愿意再去同一家店？",
+    "choices": [
+      "味道稳定",
+      "待在那儿舒服"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我外卖选不出来，会怎么办？",
+    "choices": [
+      "翻回上次点过的店",
+      "换个分类重新选"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我日用品会怎么补货？",
+    "choices": [
+      "用完再买一件",
+      "遇到优惠多存一点"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我便利店带点零食，会拿什么？",
+    "choices": [
+      "咸味薯片",
+      "小甜点"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "吃炸鸡时，我更想配什么？",
+    "choices": [
+      "冰可乐",
+      "冰柠檬茶"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我饭桌上先点什么？",
+    "choices": [
+      "一份热汤",
+      "一杯冰饮"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我晴天走一段路，会选哪条？",
+    "choices": [
+      "有树荫的小路",
+      "视野开阔的大路"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我不远也不赶时间，怎么去？",
+    "choices": [
+      "走过去",
+      "骑共享单车"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我预报可能下雨，会怎么办？",
+    "choices": [
+      "带把轻便小伞",
+      "出门时看天再决定"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我地铁有座位时会怎样？",
+    "choices": [
+      "坐下来歇歇",
+      "站在门边方便下车"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我打车时更爱做什么？",
+    "choices": [
+      "看看窗外",
+      "闭上眼休息一会儿"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我约在不熟的地方，怎么发地址？",
+    "choices": [
+      "发地图定位",
+      "说清门口和路名"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我出门过夜，什么时候收拾包？",
+    "choices": [
+      "睡前一次装齐",
+      "临出门再装"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我旅行回家怎么收包？",
+    "choices": [
+      "一次倒出来归位",
+      "先拿当晚要用的"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我到了陌生城市，先做什么？",
+    "choices": [
+      "沿住处附近走走",
+      "找一家店吃饭"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "周末我更想去哪儿逛？",
+    "choices": [
+      "人少的街巷",
+      "热闹的夜市"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我路过旧书店会怎样？",
+    "choices": [
+      "进去随便翻几本",
+      "记下店名改天来"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我旅游纪念品更想买什么？",
+    "choices": [
+      "能分着吃的本地零食",
+      "能自己留着的明信片"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我到酒店放下包之后做什么？",
+    "choices": [
+      "歇十分钟",
+      "先到楼下认路"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我旅行时更想在哪个时段出门？",
+    "choices": [
+      "店铺刚开门的清晨",
+      "街上刚亮灯的傍晚"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我旅行的照片拍多了怎么办？",
+    "choices": [
+      "先挑喜欢的修几张",
+      "先把原图都存好"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "电影散场后，我更想聊什么？",
+    "choices": [
+      "印象最深的一幕",
+      "整部片的第一感受"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我朋友推荐电影时想问什么？",
+    "choices": [
+      "为什么觉得我会喜欢",
+      "大致讲了什么故事"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我打开视频怎么决定看不看？",
+    "choices": [
+      "看完开头再决定",
+      "拉到中间看几秒"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我等东西加载时会做什么？",
+    "choices": [
+      "起身倒杯水",
+      "顺手看看消息"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我新设备到手先做什么？",
+    "choices": [
+      "拿它做一件熟悉的小事",
+      "先逛一遍设置"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我软件突然报错时怎么办？",
+    "choices": [
+      "上网搜提示原文",
+      "重做一次找出哪里出错"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我给朋友安利一个功能会怎么说？",
+    "choices": [
+      "录一段实际操作",
+      "发两三句使用感受"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "冒出一个想法，我会记在哪儿？",
+    "choices": [
+      "记在手机备忘录里",
+      "发给自己"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我做事时喜欢什么声音？",
+    "choices": [
+      "小声放熟悉的音乐",
+      "周围安静一些"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我桌上有新本子和旧本子，拿哪个？",
+    "choices": [
+      "已经写了一半的旧本",
+      "纸面干净的新本"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我东西找不到，先怎么找？",
+    "choices": [
+      "回想上次用它的地方",
+      "在常放的地方再翻一遍"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我手机相册快满了，先删什么？",
+    "choices": [
+      "临时截图",
+      "旧录屏"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我两分钟能做完的小事会怎么处理？",
+    "choices": [
+      "现在顺手做了",
+      "攒着等会儿一起做"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我手边两件事，先做哪件？",
+    "choices": [
+      "下一步很明确的",
+      "最接近截止的"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我忙完一天想怎么放松？",
+    "choices": [
+      "出去走一圈",
+      "坐着看收藏的视频"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我晚饭后散步去哪里？",
+    "choices": [
+      "人来人往的街边",
+      "安静些的小路"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我周末赖床起来怎么吃？",
+    "choices": [
+      "简单吃点再出门",
+      "直接等午饭"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我朋友临时约我，先问什么？",
+    "choices": [
+      "几点、在哪儿",
+      "还有哪些人去"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我朋友生日，更愿意送什么？",
+    "choices": [
+      "他能真正用上的东西",
+      "跟共同回忆有关的小礼物"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我更喜欢哪种聚会合照？",
+    "choices": [
+      "大家准备好一起看镜头",
+      "聊天时随手抓拍的一瞬"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我朋友讲笑话更容易记住什么？",
+    "choices": [
+      "模仿别人的语气",
+      "最后那个反转"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "聊天到很晚的时候，我会怎样？",
+    "choices": [
+      "提醒一句明天再聊",
+      "等这一段说完再睡"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我看到好玩的东西会怎么办？",
+    "choices": [
+      "马上发给想到的人",
+      "收藏起来，见面再讲"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我收到一个好建议会怎么办？",
+    "choices": [
+      "先找个地方试试",
+      "认真记下来慢慢想"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我朋友说想喝点东西，带他去哪儿？",
+    "choices": [
+      "之前去过、知道不错的店",
+      "刚经过、看起来有意思的新店"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我逛街更爱逛哪类店？",
+    "choices": [
+      "能随便翻东西的小铺",
+      "选择很多的大店"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "挑日常外套时，我先看什么？",
+    "choices": [
+      "口袋好不好用",
+      "颜色好不好搭"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我鞋穿旧了会怎么买？",
+    "choices": [
+      "找同款或相近的",
+      "试一双不同款"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我送一份小礼物，更在意什么？",
+    "choices": [
+      "包装有意思",
+      "东西贴合对方"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我同一件东西挑颜色，更偏向？",
+    "choices": [
+      "低调耐看的",
+      "一眼能认出来的"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我偶遇好看的天空会怎样？",
+    "choices": [
+      "停一会儿抬头看",
+      "掏手机拍一张"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我回住处后最想先做什么？",
+    "choices": [
+      "换身舒服的衣服",
+      "把手机和钥匙放好"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我洗完头会怎样？",
+    "choices": [
+      "马上吹干头发",
+      "稍微晾一会儿再吹"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "关灯前，我容易再确认什么？",
+    "choices": [
+      "第二天的闹钟",
+      "手机充上电没有"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我早上赶时间会怎么吃？",
+    "choices": [
+      "拿点吃的路上解决",
+      "坐下匆匆吃几口再走"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我等朋友时更想怎么待？",
+    "choices": [
+      "在原地找个角落站着",
+      "在附近绕一圈"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "巧克力和曲奇放在一起，我先拿哪样？",
+    "choices": [
+      "巧克力",
+      "曲奇"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我冬天出门等人，更想带什么？",
+    "choices": [
+      "一杯能暖手的热饮",
+      "一条围巾"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "走到半路飘起小雪，我会怎么办？",
+    "choices": [
+      "停下来看看雪",
+      "先走到暖和处再回头看"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我想在房间添一点节日气氛，会摆什么？",
+    "choices": [
+      "一串暖色小灯",
+      "一小束松枝"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我树上只选一样装饰，会选什么？",
+    "choices": [
+      "暖金色星星",
+      "雪白小动物"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "圣诞夜我想怎么过？",
+    "choices": [
+      "跟几个朋友见面吃顿饭",
+      "安静地看部喜欢的电影"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "旅行回来讲故事，我会先讲什么？",
+    "choices": [
+      "最出乎预料的插曲",
+      "最值得再去一次的地方"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我发一段旅行视频，会选哪段？",
+    "choices": [
+      "能听见路上声音的片段",
+      "配好音乐的风景短片"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "我临时拍个生活片段，会先拍什么？",
+    "choices": [
+      "手边正在做的事",
+      "窗外这一刻的光"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我看同学的新作品，想问什么？",
+    "choices": [
+      "最满意哪个选择",
+      "最想重做哪个地方"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "剪短片时，我更舍不得删哪段？",
+    "choices": [
+      "一个没准备过的真实反应",
+      "等了很久才拍到的天气变化"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我看完纪录片更可能记住什么？",
+    "choices": [
+      "一个人做决定的时刻",
+      "几段几乎听不到人声的画面"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我做完一个小作品，先给谁看？",
+    "choices": [
+      "会真的动手试一遍的人",
+      "知道我想表达什么的老朋友"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我周末更愿意计划什么？",
+    "choices": [
+      "去一个附近没去过的地方",
+      "把惦记很久的事收个尾"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我朋友约着一起做点东西，更想先做什么？",
+    "choices": [
+      "找个下午做个小样",
+      "坐下来把各自的想法聊一遍"
+    ],
+    "answer": 1
+  },
+  {
+    "title": "我想给今天留个纪念，会怎么做？",
+    "choices": [
+      "拍张只有自己懂的照片",
+      "写下当天真正说过的一句话"
+    ],
+    "answer": 0
+  },
+  {
+    "title": "猜完一百题，我更希望朋友做什么？",
+    "choices": [
+      "聊聊哪几题最意外",
+      "也出两道他们自己的题"
+    ],
+    "answer": 0
+  }
+];
+
+
+const $ = id => document.getElementById(id);
+const canvas = $("tree");
+const ctx = canvas.getContext("2d");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const TAU = Math.PI * 2;
+const CLIMB_ARC = Math.PI * 8.6;
+let width = 0, height = 0, dpr = 1;
+let level = 0, visualLevel = 0, view = 0, angle = -.36, rotation = 0;
+let manualFocus = null, cameraFocus = 132, sceneScale = 1;
+function resetCamera() {
+  manualFocus=null;
+  rotation=0;
+  $("camera-home").hidden=true;
+}
+$("camera-home").addEventListener("click",resetCamera);
+let burst = [], burstAt = 0, shakeAt = -1000, drag = null, previousFrame = 0;
+let seed = 276418;
+function random() {
+  seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+  return seed / 4294967296;
+}
+
+function treeRadius(y) {
+  return 9 + (1 - y / 254) * 97;
+}
+function rung(n) {
+  const y = 12 + n * 2.39;
+  const a = .15 + CLIMB_ARC * n / 100;
+  const r = treeRadius(y) + 5;
+  return {x: Math.sin(a) * r, y, z: Math.cos(a) * r};
+}
+const rungs = Array.from({length: 101}, (_, i) => rung(i));
+const needles = [];
+for (let tier = 0; tier < 14; tier++) {
+  const base = 16 + tier * 16.3;
+  const radius = treeRadius(base);
+  for (let i = 0; i < 43; i++) {
+    const a = TAU * (i / 43 + random() * .05 + tier * .06);
+    const r = radius * (.14 + random() * .86);
+    const y = base + (1 - r / radius) * (19 + random() * 17) + random() * 11;
+    needles.push({x: Math.sin(a) * r, y, z: Math.cos(a) * r, a,
+      size: 7 + random() * 11 + r * .034, shade: random(), frost: random() > .85});
+  }
+}
+const baubles = Array.from({length: 46}, (_, i) => {
+  const y = 25 + random() * 202, a = i * 2.39996, r = treeRadius(y) - 1;
+  return {x: Math.sin(a) * r, y, z: Math.cos(a) * r,
+    size: 2.0 + random() * 2.7, color: i % 4};
+});
+const snow = Array.from({length: 85}, () =>
+  ({x: random(), y: random(), speed: 5 + random() * 22, r: .5 + random() * 1.7, a: .2 + random() * .65}));
+const gifts = [
+  {x:-68,y:5,z:38,size:15,color:"#a74637", ribbon:"#f2bc72"},
+  {x:64,y:4,z:62,size:12,color:"#c39758", ribbon:"#fff2c9"},
+  {x:79,y:6,z:42,size:18,color:"#893726", ribbon:"#ffd889"},
+  {x:-83,y:3,z:57,size:11,color:"#447866", ribbon:"#e2ad69"}
+];
+const greens = [
+  ["#0d3b32","#082b26"],["#124a3b","#0a3932"],["#22614c","#103e35"],
+  ["#2e6c55","#184d40"],["#3e8064","#1d5746"],["#548f70","#2b6754"]
+];
+const colors = [["#fff6d6","#dca754","#875028"],["#ffd0bb","#ae5240","#5a281f"],
+  ["#f5f9df","#aac3ae","#4c7b6c"],["#fff2c5","#db8155","#793b28"]];
+const sprites = colors.map(([light,mid,dark]) => {
+  const texture = document.createElement("canvas");
+  texture.width = texture.height = 64;
+  const c = texture.getContext("2d");
+  const gradient = c.createRadialGradient(23,18,1,32,32,30);
+  gradient.addColorStop(0,light);
+  gradient.addColorStop(.45,mid);
+  gradient.addColorStop(1,dark);
+  c.fillStyle=gradient;
+  c.beginPath(); c.arc(32,32,29,0,TAU); c.fill();
+  return texture;
+});
+function setViewport() {
+  width = canvas.clientWidth; height = canvas.clientHeight;
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+}
+new ResizeObserver(setViewport).observe(canvas);
+setViewport();
+
+function glow(x,y,r,color) {
+  const g = ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0,color); g.addColorStop(1,"transparent");
+  ctx.fillStyle=g; ctx.fillRect(x-r,y-r,r*2,r*2);
+}
+function star(x,y,r,turn) {
+  ctx.beginPath();
+  for (let i=0;i<10;i++) {
+    const a=turn+TAU*i/10, k=i%2 ? r*.44 : r;
+    const px=x+Math.cos(a)*k, py=y+Math.sin(a)*k;
+    if(i) ctx.lineTo(px,py); else ctx.moveTo(px,py);
+  }
+  ctx.closePath();
+  const g=ctx.createLinearGradient(x-r,y-r,x+r,y+r);
+  g.addColorStop(0,"#ffffdf"); g.addColorStop(.46,"#ffe19a"); g.addColorStop(1,"#bd7430");
+  ctx.fillStyle=g; ctx.fill();
+  ctx.strokeStyle="#fff0bf"; ctx.lineWidth=1; ctx.stroke();
+}
+function makeBurst(finale=false) {
+  burstAt = performance.now();
+  burst = Array.from({length: finale ? 68 : 23}, () => {
+    const a = random()*TAU, speed = 25+random()*(finale?210:97);
+    return {x:Math.cos(a)*speed,y:Math.sin(a)*speed-32,r:1+random()*2.6};
+  });
+}
+const AVATARS = ["🦌","🦊","🐻","🐧","🐰","🐼","🐿️","🦉","🐨","🐱","🐸","🐶"];
+const COLORS = ["#ffdb94","#ffc1a2","#bbecb9","#9ee0fc","#f4b8de","#dfd0ff"];
+let scenePlayers = [];
+function animal(id) {
+  let hash = 0;
+  for(const char of id) hash = (Math.imul(hash,31)+char.charCodeAt(0)) >>> 0;
+  return {icon:AVATARS[hash%AVATARS.length], color:COLORS[Math.floor(hash/12)%COLORS.length]};
+}
+function drawPlayer(id,name,point,mine,time,occupied) {
+  const {icon,color} = animal(id);
+  let x=point.x, y=point.y;
+  const r=mine?16:13;
+  const bounce=reducedMotion?0:Math.sin(time*3+point.z*.05)*1.3;
+  x=Math.max(r+8,Math.min(width-r-8,x));
+  y=Math.max(59,Math.min(height-r-12,y-bounce));
+  ctx.font=(mine?"700 14px":"650 13px")+" system-ui, sans-serif";
+  const letters=Array.from(name);
+  while(letters.length>1 && ctx.measureText(letters.join("")+"…").width>124) letters.pop();
+  const label=letters.join("")+(letters.length<Array.from(name).length?"…":"");
+  const w=ctx.measureText(label).width+16;
+  const shifts=mine?[0]:[0,-61,61,-120,120,-170,170];
+  const center=shifts.map(shift=>Math.min(width-w/2-5,Math.max(w/2+5,x+shift))).find(cx=>
+    occupied.every(box=>Math.abs(cx-box.x)>(w+box.w)/2+5 || Math.abs(box.y-y)>46));
+  if(center===undefined) return;
+  occupied.push({x:center,y,w});
+  if(Math.abs(center-x)>4) {
+    ctx.beginPath();ctx.moveTo(point.x,point.y);ctx.lineTo(center,y);
+    ctx.strokeStyle=color;ctx.lineWidth=1;ctx.stroke();
+  }
+  if(mine) glow(center,y,r*2.8,"#ffdf9670");
+  ctx.beginPath();ctx.arc(center,y,r,0,TAU);ctx.fillStyle="#142521";ctx.fill();
+  ctx.strokeStyle=mine?"#ffe7a7":color;ctx.lineWidth=mine?2.4:1.6;ctx.stroke();
+  ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.font=(mine?21:17)+"px Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif";
+  ctx.fillStyle="#fff";ctx.fillText(icon,center,y+1);
+  ctx.font=(mine?"700 14px":"650 13px")+" system-ui, sans-serif";
+  ctx.beginPath();ctx.roundRect(center-w/2,y-r-25,w,21,7);
+  ctx.fillStyle=mine?"#fbe2a6":"#142521f5";ctx.fill();
+  if(!mine){ctx.strokeStyle=color;ctx.lineWidth=1;ctx.stroke();}
+  ctx.fillStyle=mine?"#211a0c":"#f7fae9";ctx.fillText(label,center,y-r-14);
+}
+function animate(now) {
+  const dt = Math.min(50, now-previousFrame || 16);
+  previousFrame = now;
+  requestAnimationFrame(animate);
+  if (!width || !height || (document.hidden)) return;
+  const stage = game && !game.done ? 1 : 0;
+  const ease = reducedMotion ? 1 : 1 - Math.pow(.996, dt);
+  view += (stage-view)*ease;
+  visualLevel += (level-visualLevel)*(reducedMotion ? 1 : 1-Math.pow(.994,dt));
+  const targetAngle = (game ? -CLIMB_ARC*level/100-.33 : -.47) + rotation;
+  angle += (targetAngle-angle)*(reducedMotion ? 1 : 1-Math.pow(.995,dt));
+  const yaw = angle + (reducedMotion ? 0 : Math.sin(now/3400)*.12);
+  const sin=Math.sin(yaw), cos=Math.cos(yaw);
+  const scale = Math.min(height/315, width/255)*(1+view*.70);
+  sceneScale=scale;
+  const following = 132 + (Math.min(228,Math.max(61,rung(visualLevel).y+10))-132)*view;
+  cameraFocus += ((manualFocus ?? following)-cameraFocus)*ease;
+  const focus = cameraFocus;
+  const jitter = reducedMotion ? 0 : Math.max(0,1-(now-shakeAt)/340)*Math.sin((now-shakeAt)/17)*4;
+  function project({x,y,z}) {
+    const depth=-x*sin+z*cos;
+    const perspective=355/(355-depth*.87);
+    return {x:width*.5+(x*cos+z*sin)*scale*perspective+jitter,
+      y:height*.52+((focus-y)-depth*.18)*scale*perspective,z:depth,s:scale*perspective};
+  }
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,width,height);
+  const t = reducedMotion ? 0 : now/1000;
+  glow(width*.49,height*.43,Math.max(width,height)*.58,"#437f5f49");
+  for (let i=0;i<snow.length;i++) {
+    const p=snow[i], x=p.x*width+Math.sin(t*.6+i)*9;
+    const y=(p.y*height+t*p.speed)%height;
+    ctx.fillStyle="rgba(249,251,230,"+(p.a*(i%4? .65:1))+")";
+    ctx.beginPath(); ctx.arc(x,y,p.r,0,TAU);ctx.fill();
+  }
+  const ground=project({x:0,y:0,z:10});
+  ctx.save();ctx.translate(ground.x,ground.y);ctx.scale(1,.24);
+  glow(0,0,124*scale,"#b4d0b77a"); glow(0,8,82*scale,"#020a07aa");
+  ctx.restore();
+  const foot=project({x:0,y:0,z:0}), trunk=project({x:0,y:35,z:0});
+  ctx.strokeStyle="#5c392b";ctx.lineWidth=13*scale;ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(foot.x,foot.y);ctx.lineTo(trunk.x,trunk.y);ctx.stroke();
+
+  const layers=[];
+  for (const v of needles) layers.push({type:"needle",v,p:project(v)});
+  for (const v of baubles) layers.push({type:"ball",v,p:project(v)});
+  for (const v of gifts) layers.push({type:"gift",v,p:project(v)});
+  for (let i=0;i<rungs.length;i++) {
+    const p=project(rungs[i]);
+    layers.push({type:"rung",v:i,p});
+    if(i) layers.push({type:"wire",v:i,p,q:project(rungs[i-1])});
+  }
+  layers.sort((a,b)=> a.p.z-b.p.z);
+  for(const {type,v,p,q} of layers) {
+    const {x,y,s,z}=p;
+    if(y < -48 || y > height+48) continue;
+    if(type==="needle") {
+      const length=v.size*s, side=Math.sin(v.a+yaw), lateral=side*length*.82;
+      const toneIndex = Math.floor(v.shade*3+1.6+(z/105)*1.9);
+      const tone = greens[Math.max(0, Math.min(5, toneIndex))];
+      ctx.beginPath();ctx.moveTo(x-lateral*.46,y-length*.75);
+      ctx.quadraticCurveTo(x+length*.79,y-length*.43,x+lateral,y+length*.48);
+      ctx.quadraticCurveTo(x-length*.83,y+length*.28,x-lateral*.46,y-length*.75);
+      ctx.fillStyle=tone[1];ctx.fill();
+      ctx.beginPath();ctx.moveTo(x-lateral*.42,y-length*.73);
+      ctx.quadraticCurveTo(x+length*.52,y-length*.60,x+lateral,y+length*.29);
+      ctx.quadraticCurveTo(x-length*.67,y+length*.12,x-lateral*.42,y-length*.73);
+      ctx.fillStyle=tone[0];ctx.fill();
+      if(v.frost && z>-25) {
+        ctx.strokeStyle="#b6dbbc5e";ctx.lineWidth=Math.max(.6,s*.78);
+        ctx.beginPath();ctx.moveTo(x-lateral*.39,y-length*.66);ctx.quadraticCurveTo(x+length*.08,y-length*.52,x+lateral*.76,y+length*.15);ctx.stroke();
+      }
+    } else if(type==="ball") {
+      const r=v.size*s;
+      ctx.drawImage(sprites[v.color],x-r,y-r,r*2,r*2);
+      ctx.fillStyle="#edcd83";ctx.fillRect(x-r*.25,y-r*1.07,r*.5,r*.28);
+    } else if(type==="wire") {
+      ctx.strokeStyle=v<=level?"#ffe6a1ca":"#bf99654f";
+      ctx.lineWidth=v<=level?1.9:1.05;
+      ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(x,y);ctx.stroke();
+    } else if(type==="rung") {
+      const lit=v<=level;
+      const r=Math.max(1.45, s*(v%10===0?3.45:2.2));
+      if(lit) glow(x,y,r*4.2,"#ffaa5665");
+      ctx.fillStyle=lit?"#fff0bd":v%10===0?"#e4b86ebf":"#d1b88a87";
+      ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+    } else {
+      const r=v.size*s;
+      ctx.fillStyle=v.color;ctx.fillRect(x-r*.65,y-r,r*1.30,r);
+      ctx.fillStyle="#0004";ctx.fillRect(x+r*.37,y-r,r*.28,r);
+      ctx.fillStyle=v.ribbon;ctx.fillRect(x-r*.04,y-r,r*.16,r);
+      ctx.fillRect(x-r*.72,y-r*1.07,r*1.44,r*.2);
+    }
+  }
+  const top=project({x:0,y:268,z:0});
+  const starSize=Math.max(11,12.7*top.s);
+  glow(top.x,top.y,starSize*(level===100?5.5:3.1),"#ffbf5675");
+  star(top.x,top.y,starSize,-Math.PI/2+Math.sin(t*.88)*.21);
+  const player=project(rung(visualLevel));
+  const visiblePlayers = scenePlayers.map(row => {
+    row.shownScore += (row.score-row.shownScore)*ease;
+    return {...row, point:project(rung(row.shownScore))};
+  });
+  const friendMarkers = visiblePlayers.filter(row=>row.id!==game?.id)
+    .filter(({point})=>point.y>54 && point.y<height-23)
+    .sort((a,b)=>Math.abs(a.point.y-height*.5)-Math.abs(b.point.y-height*.5) || a.id.localeCompare(b.id)).slice(0,9);
+  const occupied = [];
+  if(game && (manualFocus===null || (player.y>52 && player.y<height-10))) {
+    drawPlayer(game.id,game.name,player,true,t,occupied);
+  }
+  for(const row of friendMarkers) drawPlayer(row.id,row.nickname,row.point,false,t,occupied);
+
+  const age=(now-burstAt)/1000;
+  if (!reducedMotion && age<1.4) {
+    ctx.globalAlpha=Math.max(0,1-age/1.4);ctx.fillStyle="#ffe5aa";
+    for (const p of burst) {
+      ctx.beginPath();ctx.arc(player.x+p.x*age,player.y+p.y*age+52*age*age,p.r,0,TAU);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+}
+canvas.addEventListener("pointerdown",event=>{
+  if(!event.isPrimary || event.button!==0) return;
+  drag={x:event.clientX,y:event.clientY,rotation,focus:manualFocus??cameraFocus,axis:null};
+  canvas.setPointerCapture(event.pointerId);
+});
+canvas.addEventListener("pointermove",event=>{
+  if(!drag || !event.isPrimary) return;
+  const dx=event.clientX-drag.x, dy=event.clientY-drag.y;
+  if(!drag.axis && Math.max(Math.abs(dx),Math.abs(dy))>7) drag.axis=Math.abs(dy)>Math.abs(dx)?"vertical":"horizontal";
+  if(drag.axis==="vertical") {
+    manualFocus=Math.max(12,Math.min(263,drag.focus+dy/sceneScale));
+  } else if(drag.axis==="horizontal") {
+    rotation=drag.rotation+dx*.012;
+  }
+  if(drag.axis) $("camera-home").hidden=false;
+});
+for(const type of ["pointerup","pointercancel","lostpointercapture"]) {
+  canvas.addEventListener(type,event=>{if(event.isPrimary) drag=null;});
+}
+
+
+const STORAGE = "ahuo-tree-v2";
+const room = new URLSearchParams(location.search).get("room")?.trim().toLowerCase() || "christmas";
+const roomCode = "daily-" + (/^[a-z0-9-]{1,34}$/.test(room) ? room : "christmas");
+const gameKey = STORAGE + ":" + roomCode;
+const boardKey = gameKey + ":board";
+function load(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+}
+function save(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+
+const soundKey = "ahuo-tree-sound";
+let soundEnabled = load(soundKey,true);
+let audio, musicBus, effectsBus, soundtrackTimer;
+let beatIndex = 0, nextBeat = 0;
+const beatLength = 60/96;
+const phrases = [
+  {bass:48,chord:[60,64,67,71],melody:[76,null,79,81,79,null,76,74]},
+  {bass:45,chord:[57,60,64,67],melody:[72,null,76,null,79,76,74,null]},
+  {bass:41,chord:[57,60,65,69],melody:[72,null,77,79,81,null,79,77]},
+  {bass:43,chord:[55,59,62,65],melody:[74,null,79,null,77,74,71,null]},
+  {bass:48,chord:[60,64,67,71],melody:[72,76,79,null,83,null,81,79]},
+  {bass:40,chord:[55,59,60,64],melody:[76,null,74,72,71,null,74,null]},
+  {bass:41,chord:[57,60,65,69],melody:[77,null,81,79,76,null,74,72]},
+  {bass:43,chord:[55,59,62,67],melody:[71,74,79,null,74,null,72,null]}
+];
+function tone(bus, midi, at, seconds, volume, wave="sine", overtone=false) {
+  const oscillator=audio.createOscillator();
+  const envelope=audio.createGain();
+  oscillator.type=wave;
+  oscillator.frequency.value=440*2**((midi-69)/12);
+  envelope.gain.setValueAtTime(.0001,at);
+  envelope.gain.exponentialRampToValueAtTime(volume,at+.025);
+  envelope.gain.exponentialRampToValueAtTime(.0001,at+seconds);
+  oscillator.connect(envelope);
+  envelope.connect(bus);
+  oscillator.start(at);
+  oscillator.stop(at+seconds+.03);
+  if(overtone) tone(bus,midi+12,at,seconds*.48,volume*.15);
+}
+function scheduleMusic() {
+  if(audio?.state!=="running" || !soundEnabled || document.hidden) return;
+  nextBeat=Math.max(nextBeat,audio.currentTime+.028);
+  while(nextBeat<audio.currentTime+.24) {
+    const bar=phrases[Math.floor(beatIndex/8)%phrases.length];
+    const eighth=beatIndex%8;
+    const melody=bar.melody[eighth];
+    if(melody!==null) tone(musicBus,melody,nextBeat,.68,.054,"sine",true);
+    if(eighth%2===0) tone(musicBus,bar.chord[eighth/2],nextBeat,.85,.034,"sine",true);
+    if(eighth===0 || eighth===4) tone(musicBus,bar.bass+(eighth===4?7:0),nextBeat,1.16,.06);
+    beatIndex=(beatIndex+1)%(phrases.length*8);
+    nextBeat+=beatLength/2;
+  }
+}
+function paintSoundButton() {
+  const button=$("sound");
+  button.textContent=soundEnabled ? "♫" : "♪";
+  button.setAttribute("aria-label",soundEnabled?"关闭音乐和音效":"开启音乐和音效");
+  button.setAttribute("aria-pressed",String(soundEnabled));
+}
+function stopSound() {
+  clearInterval(soundtrackTimer);
+  soundtrackTimer=null;
+  if(audio && audio.state!=="closed") void audio.suspend().catch(()=>{});
+}
+function wakeSound() {
+  if(!soundEnabled || document.hidden) return;
+  try {
+    if(!audio) {
+      const Context=window.AudioContext||window.webkitAudioContext;
+      if(!Context) return;
+      audio=new Context();
+      musicBus=audio.createGain();
+      effectsBus=audio.createGain();
+      musicBus.gain.value=.35;
+      effectsBus.gain.value=.56;
+      musicBus.connect(audio.destination);
+      effectsBus.connect(audio.destination);
+    }
+    if(audio.state!=="running") void audio.resume().then(scheduleMusic).catch(()=>{});
+    if(!soundtrackTimer) soundtrackTimer=setInterval(scheduleMusic,100);
+  } catch {}
+}
+function playSound(kind) {
+  wakeSound();
+  if(!audio || !soundEnabled || document.hidden) return;
+  const notes={
+    select:[[77,0,.13,.065]],
+    correct:[[84,.09,.30,.10],[88,.18,.36,.078],[91,.27,.48,.062]],
+    wrong:[[70,.11,.26,.076],[65,.24,.34,.055]],
+    complete:[[72,0,.42,.077],[76,.11,.45,.079],[79,.22,.52,.080],[84,.36,.86,.10]],
+    duel:[[69,0,.24,.075],[76,.12,.31,.069]]
+  };
+  const now=audio.currentTime+.028;
+  for(const [note,offset,len,volume] of notes[kind]) tone(effectsBus,note,now+offset,len,volume,"sine",true);
+}
+$("sound").addEventListener("click",()=>{
+  soundEnabled=!soundEnabled;
+  save(soundKey,soundEnabled);
+  paintSoundButton();
+  if(soundEnabled) { wakeSound(); playSound("select"); }
+  else stopSound();
+});
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden) stopSound();
+  else if(audio && soundEnabled) wakeSound();
+});
+addEventListener("pagehide",stopSound);
+paintSoundButton();
+
+let game = load(gameKey, null);
+let localScores = load(boardKey, []);
+let cloud = null, cloudPending = null, leaderboardChannel = null, cloudScores = null;
+let revision = 0, syncing = false, boardRevision = 0, boardTimer = null, nextTimer = null;
+const cloudEnabled = Boolean(CLOUD.url && CLOUD.publishableKey);
+const board = $("leaderboard");
+
+const duel = $("duel");
+const HANDS = [
+  {name:"石头",icon:"✊"}, {name:"剪刀",icon:"✌️"}, {name:"布",icon:"✋"}
+];
+let rivals = [], opponent = null, duelBusy = false, resolvedDuel = false;
+
+function validHand(hand) {
+  return Number.isInteger(hand) && hand >= 0 && hand < HANDS.length;
+}
+function handCard(name,icon,click) {
+  const button = document.createElement("button");
+  button.type = "button";
+  const symbol = document.createElement("span");
+  symbol.className = "hand-icon";
+  symbol.setAttribute("aria-hidden","true");
+  symbol.textContent = icon;
+  button.append(symbol,document.createTextNode(name));
+  button.addEventListener("click",click);
+  return button;
+}
+function renderDefense() {
+  $("guard-title").textContent = validHand(game.hand) ? "已留下守格手势" : "留下你的守格手势";
+  $("defense-hands").replaceChildren(...HANDS.map(({name,icon},i)=>{
+    const button=handCard(name,icon,()=>{
+      if(!game?.done) return;
+      game.hand=i;
+      playSound("select");
+      persist(true);
+      renderDefense();
+      $("defense-hands").children[i].focus({preventScroll:true});
+    });
+    button.setAttribute("aria-pressed",String(game.hand===i));
+    return button;
+  }));
+}
+function renderDuelBanner(rows) {
+  rivals = !game || game.done || game.duels?.includes(game.score) ? [] :
+    rows.filter(row=>row.id!==game.id && row.score===game.score && row.finished &&
+      (row.has_hand || validHand(row.hand)));
+  const button=$("open-duel");
+  button.hidden=!rivals.length;
+  if(rivals.length) {
+    const label=rivals[0].nickname+(rivals.length>1 ? " 等 "+rivals.length+" 人" : "");
+    button.textContent="⚔ 对决 · "+label;
+  }
+}
+function openDuel() {
+  if(!rivals.length || duel.open) return;
+  playSound("duel");
+  clearTimeout(nextTimer);
+  opponent=null;
+  resolvedDuel=false;
+  $("duel-level").textContent="第 "+game.score+" 格";
+  $("duel-outcome").hidden=true;
+  $("duel-continue").hidden=true;
+  $("duel-actions").hidden=false;
+  const choices=rivals.slice();
+  if(choices.length===1) {
+    selectRival(choices[0],false);
+  } else {
+    for(let i=choices.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [choices[i],choices[j]]=[choices[j],choices[i]];
+    }
+    $("duel-title").textContent="选择对决盲盒";
+    $("duel-copy").textContent="每个盲盒里藏着一位同格玩家的手势。";
+    $("duel-actions").replaceChildren(...choices.map((row,i)=>
+      handCard("盲盒 "+(i+1),"🎁",()=>selectRival(row,true))));
+  }
+  duel.showModal();
+  $("duel-actions").children[0].focus();
+}
+function selectRival(row,blind) {
+  opponent=row;
+  $("duel-title").textContent=blind?"盲盒对决":"对决 · "+row.nickname;
+  $("duel-copy").textContent="出一个手势，赢了跳过接下来的 5 题。";
+  $("duel-actions").replaceChildren(...HANDS.map(({name,icon},i)=>
+    handCard(name,icon,()=>void playDuel(i))));
+  if(duel.open) $("duel-actions").children[0].focus();
+}
+function outcomeSide(name,hand) {
+  const side=document.createElement("div");
+  const icon=document.createElement("span");
+  icon.className="hand-icon";
+  icon.textContent=HANDS[hand].icon;
+  const label=document.createElement("strong");
+  label.textContent=name;
+  const move=document.createElement("span");
+  move.textContent=HANDS[hand].name;
+  side.append(icon,label,move);
+  return side;
+}
+async function playDuel(hand) {
+  if(!game || game.done || !opponent || duelBusy || resolvedDuel) return;
+  duelBusy=true;
+  playSound("select");
+  const rival=opponent;
+  $("dismiss-duel").disabled=true;
+  const actions=[...$("duel-actions").children];
+  actions.forEach(button=>{button.disabled=true;});
+  try {
+    let other=rival.hand;
+    if(cloudEnabled && rival.has_hand) {
+      const client=await connect();
+      const {data,error}=await client.rpc("christmas_reveal_hand",{
+        opponent_id:rival.id,room_code:roomCode,rung_height:game.score
+      });
+      if(error) throw error;
+      other=data;
+    }
+    if(!validHand(other)) throw Error("Missing hand");
+    const won=(other-hand+3)%3===1;
+    const draw=other===hand;
+    if(!draw) playSound(won?"correct":"wrong");
+    const next=game.index+Number(game.selected!==null);
+    const skipped=won?Math.min(5,100-next):0;
+    resolvedDuel=true;
+    game.duels=[...(game.duels||[]),game.score];
+    if(skipped) {
+      game.index=Math.min(99,next+skipped);
+      game.selected=null;
+      game.done=next+skipped===100;
+      if(game.done) resetCamera();
+      makeBurst(true);
+    }
+    persist(Boolean(skipped));
+    if(!skipped) renderBoard();
+    repaint();
+    $("duel-title").textContent=won?"对决获胜！":draw?"打成平手":"对手获胜";
+    $("duel-copy").textContent=skipped?"已跳过 "+skipped+" 题 · 高度保持不变":
+      won?"本轮题目已答完":"继续攀登";
+    const vs=document.createElement("strong");
+    vs.textContent="VS";
+    $("duel-outcome").replaceChildren(outcomeSide("你",hand),vs,outcomeSide(rival.nickname,other));
+    $("duel-outcome").hidden=false;
+    $("duel-actions").hidden=true;
+    $("duel-continue").hidden=false;
+    $("duel-continue").focus();
+  } catch {
+    $("duel-copy").textContent="暂时无法揭晓，请再试一次。";
+    actions.forEach(button=>{button.disabled=false;});
+  } finally {
+    duelBusy=false;
+    $("dismiss-duel").disabled=false;
+  }
+}
+$("open-duel").addEventListener("click",openDuel);
+$("dismiss-duel").addEventListener("click",()=>duel.close());
+$("duel-continue").addEventListener("click",()=>duel.close());
+duel.addEventListener("cancel",event=>{if(duelBusy) event.preventDefault();});
+duel.addEventListener("close",()=>{
+  queueNext();
+  if(game?.done) $("result-title").focus({preventScroll:true});
+  else if(game) $("question").focus({preventScroll:true});
+});
+
+function repaint() {
+  $("intro").hidden = Boolean(game);
+  $("quiz").hidden = !game || game.done;
+  $("result").hidden = !game?.done;
+  $("altitude").hidden = !game;
+  $("camera-home").textContent=game ? "回到我" : "回到全景";
+  level = game?.score || 0;
+  $("height").textContent = level;
+  if (!game) return;
+  if (game.done) {
+    $("result-title").textContent = level === 100 ? "抵达树顶！" : "攀登完成";
+    $("result-score").textContent = level + " 格";
+    renderResultRank();
+    renderDefense();
+    return;
+  }
+  const q = QUESTIONS[game.index];
+  $("step").textContent = "第 " + (game.index + 1) + " / 100 题";
+  $("player-name").textContent = game.name;
+  $("meter").style.width = (game.index + Number(game.selected !== null)) + "%";
+  $("question").textContent = q.title;
+  const answered = game.selected !== null;
+  $("options").replaceChildren(...q.choices.map((label, i) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "option";
+    button.disabled = answered;
+    if (answered && i === q.answer) button.classList.add("correct");
+    if (answered && game.selected === i && i !== q.answer) button.classList.add("wrong");
+    const badge = document.createElement("span");
+    badge.textContent = ["A", "B"][i];
+    button.append(badge, document.createTextNode(label));
+    button.addEventListener("click", () => answer(i));
+    return button;
+  }));
+  $("feedback-text").dataset.correct = answered ? String(game.selected === q.answer) : "";
+  $("feedback-text").textContent = !answered ? "" : game.selected === q.answer ? "答对了，上升一格！" : "答错了，留在原高度";
+}
+function answer(choice) {
+  if (!game || game.done || game.selected !== null) return;
+  game.selected = choice;
+  playSound("select");
+  if (QUESTIONS[game.index].answer === choice) {
+    playSound("correct");
+    game.score++;
+    makeBurst(game.score % 10 === 0);
+    $("float").classList.remove("play");
+    void $("float").offsetWidth;
+    $("float").classList.add("play");
+  } else {
+    shakeAt = performance.now();
+    playSound("wrong");
+  }
+  persist(true);
+  repaint();
+  queueNext();
+}
+function currentRow() {
+  return game ? {id:game.id, nickname:game.name, score:game.score,
+    answered:game.done ? 100 : game.index + Number(game.selected !== null),
+    finished:game.done, room:roomCode, hand:game.done && validHand(game.hand) ? game.hand : null} : null;
+}
+function persist(leaderboardChanged=false) {
+  save(gameKey, game);
+  if (!leaderboardChanged) return;
+  const row = currentRow();
+  localScores = [...localScores.filter(x=>x.id !== row.id), row];
+  save(boardKey, localScores);
+  if (cloudEnabled) { revision++; void syncScore(); }
+  renderBoard();
+}
+function orderedScores() {
+  const list = cloudEnabled && cloudScores ? [...cloudScores] : [...localScores];
+  const own = currentRow();
+  const rows = cloudEnabled && cloudScores && own ?
+    [...list.filter(x=>x.id!==own.id),own] : list;
+  return rows.sort((a,b)=>b.score-a.score || a.nickname.localeCompare(b.nickname,"zh") || a.id.localeCompare(b.id));
+}
+function renderResultRank() {
+  if (!game?.done) return;
+  const rank = 1 + orderedScores().filter(row=>row.score > game.score).length;
+  $("result-rank").textContent = (cloudEnabled && cloudScores ? "好友排名" : "本机排名") + " · 第 " + rank + " 名";
+}
+function renderBoard() {
+  const rows = orderedScores();
+  const previous = new Map(scenePlayers.map(row=>[row.id,row.shownScore]));
+  scenePlayers = rows.map(row=>({...row,shownScore:previous.get(row.id)??row.score}));
+  renderResultRank();
+  renderDuelBanner(rows);
+  if (!board.open) return;
+  $("board-note").textContent = !cloudEnabled ? "本机排行" :
+    cloudScores ? "好友房间 · " + roomCode : "尚未连上好友排行 · 显示本机记录";
+  if (!rows.length) $("board-note").textContent += " · 暂无成绩";
+  let rank = 0, last = -1;
+  const items = rows.map((row,i) => {
+    if (row.score !== last) { rank = i+1; last=row.score; }
+    const item = document.createElement("li");
+    if(row.id===game?.id) item.className="mine";
+    const place = document.createElement("span");
+    place.className="rank"; place.textContent=String(rank).padStart(2,"0");
+    const label = document.createElement("span");
+    const avatar = document.createElement("span");
+    avatar.className="animal-inline"; avatar.setAttribute("aria-hidden","true"); avatar.textContent=animal(row.id).icon;
+    label.append(avatar, document.createTextNode(row.nickname + (row.id===game?.id ? "（你）" : "")));
+    const score = document.createElement("b");
+    score.textContent=row.score + " 格";
+    item.append(place,label,score);
+    return item;
+  });
+  $("board-list").replaceChildren(...items);
+}
+
+async function connect() {
+  if (cloud) return cloud;
+  if (!cloudPending) {
+    cloudPending = (async () => {
+      const {createClient} = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+      const client = createClient(CLOUD.url,CLOUD.publishableKey);
+      const session = await client.auth.getSession();
+      if(session.error) throw session.error;
+      if (!session.data.session) {
+        const result = await client.auth.signInAnonymously();
+        if(result.error) throw result.error;
+      }
+      cloud = client;
+      return cloud;
+    })().finally(()=>{ cloudPending=null; });
+  }
+  return cloudPending;
+}
+async function syncScore() {
+  if (!cloudEnabled || syncing || !game) return;
+  syncing = true;
+  try {
+    const client = await connect();
+    const {data} = await client.auth.getSession();
+    if (!data.session) throw new Error("Session unavailable");
+    while (game) {
+      const sending = revision;
+      const {hand, ...climb} = currentRow();
+      const row = {...climb, owner: data.session.user.id};
+      const {error} = await client.from("christmas_climbs").upsert(row);
+      if (error) throw error;
+      if (validHand(hand)) {
+        const {error:handError} = await client.rpc("christmas_save_hand",{climb_id:row.id,new_hand:hand});
+        if(handError) throw handError;
+      }
+      if (sending === revision) break;
+    }
+    $("sync-notice").hidden = true;
+    if (board.open || game?.done) void refreshScores();
+  } catch {
+    $("sync-notice").hidden = false;
+  } finally { syncing = false; }
+}
+async function refreshScores() {
+  if (!cloudEnabled) return;
+  const request = ++boardRevision;
+  try {
+    const client = await connect();
+    const {data,error} = await client.from("christmas_climbs").select("id,nickname,score,answered,finished,has_hand")
+      .eq("room",roomCode).order("score",{ascending:false}).order("id").limit(1000);
+    if (error) throw error;
+    if (request !== boardRevision) return;
+    cloudScores = data;
+  } catch {
+    if (request !== boardRevision) return;
+    cloudScores = null;
+  }
+  renderBoard();
+}
+function openBoard() {
+  if (!board.open) board.showModal();
+  renderBoard();
+  void watchScores();
+}
+async function watchScores() {
+  if (!cloudEnabled) return;
+  void refreshScores();
+  try {
+    const client = await connect();
+    if(leaderboardChannel) return;
+    leaderboardChannel = client.channel("christmas-" + roomCode).on("postgres_changes", {
+      event: "*", schema:"public", table:"christmas_climbs", filter:"room=eq." + roomCode
+    }, () => {
+      clearTimeout(boardTimer);
+      boardTimer = setTimeout(refreshScores,220);
+    }).subscribe(status=>{
+      if (status==="SUBSCRIBED") void refreshScores();
+    });
+  } catch { renderBoard(); }
+}
+$("start-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name = $("nickname").value.trim();
+  if (!name) {
+    $("nickname").setCustomValidity("请输入昵称");
+    $("nickname").reportValidity();
+    return;
+  }
+  const id = crypto.randomUUID ? crypto.randomUUID() :
+    [...crypto.getRandomValues(new Uint8Array(16))].map((n,i)=>
+      ([4,6,8,10].includes(i)?"-":"")+(i===6?((n&15)|64):i===8?((n&63)|128):n).toString(16).padStart(2,"0")).join("");
+  game={id,name,index:0,selected:null,score:0,done:false};
+  playSound("select");
+  resetCamera();
+  persist(true); repaint();
+  $("question").focus({preventScroll:true});
+});
+$("nickname").addEventListener("input", ()=>$("nickname").setCustomValidity(""));
+function queueNext() {
+  clearTimeout(nextTimer);
+  if (duel.open || !game || game.done || game.selected === null) return;
+  const correct = game.selected === QUESTIONS[game.index].answer;
+  nextTimer = setTimeout(advance, correct ? 650 : 900);
+}
+function advance(){
+  if(duel.open || !game || game.selected===null || game.done) return;
+  if(game.index===99) {
+    game.done=true;
+    playSound("complete");
+    resetCamera();
+    persist(true); repaint();
+    if(!board.open) $("result-title").focus({preventScroll:true});
+    if (game.score===100) makeBurst(true);
+    if (cloudEnabled) void refreshScores();
+    return;
+  }
+  game.index++;
+  game.selected=null;
+  persist(); repaint();
+  if(!board.open) $("question").focus({preventScroll:true});
+}
+$("restart").addEventListener("click",()=>{
+  $("nickname").value=game.name;
+  game=null;
+  resetCamera();
+  persist(); repaint();
+  $("nickname").focus({preventScroll:true});
+});
+$("retry").addEventListener("click",()=>void syncScore());
+$("open-board").addEventListener("click",openBoard);
+$("result-board").addEventListener("click",openBoard);
+$("close-board").addEventListener("click",()=>board.close());
+
+addEventListener("online",()=>{ void syncScore(); void watchScores(); });
+addEventListener("storage",event=>{
+  if(event.key===boardKey) { localScores=load(boardKey,[]); renderBoard(); }
+});
+if (game && !game.done && game.selected !== null) {
+  if(game.index===QUESTIONS.length-1) {
+    game.done=true;
+    persist(true);
+  } else {
+    game.index++;
+    game.selected=null;
+    persist();
+  }
+}
+if (game) visualLevel=game.score;
+repaint();
+renderBoard();
+queueNext();
+if (cloudEnabled) { void watchScores(); if(game) void syncScore(); }
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
