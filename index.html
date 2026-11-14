@@ -71,8 +71,8 @@ canvas{touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.camera-home{
 </dialog>
 <script>
 const CLOUD = {
-  url: "",
-  publishableKey: ""
+  url: "https://ebckakmersvbuuzpumqf.supabase.co",
+  publishableKey: "sb_publishable_ZtbbOxZVrRY6kJxJ3pMpQA_Z2mZehRW"
 };
 const QUESTIONS = [
   {
@@ -1284,8 +1284,9 @@ paintSoundButton();
 let game = load(gameKey, null);
 let localScores = load(boardKey, []);
 let cloud = null, cloudPending = null, leaderboardChannel = null, cloudScores = null;
-let revision = 0, syncing = false, boardRevision = 0, boardTimer = null, nextTimer = null;
-const cloudEnabled = Boolean(CLOUD.url && CLOUD.publishableKey);
+let liveConnected = false, fallbackTimer = null, boardLoading = false, boardNeedsRefresh = false;
+let revision = 0, syncing = false, boardTimer = null, nextTimer = null;
+const cloudEnabled = CLOUD.url.startsWith("https://") && CLOUD.publishableKey.startsWith("sb_publishable_");
 const board = $("leaderboard");
 
 const duel = $("duel");
@@ -1535,7 +1536,7 @@ function renderBoard() {
   renderDuelBanner(rows);
   if (!board.open) return;
   $("board-note").textContent = !cloudEnabled ? "本机排行" :
-    cloudScores ? "好友房间 · " + roomCode : "尚未连上好友排行 · 显示本机记录";
+    cloudScores ? (liveConnected ? "实时更新" : "自动刷新") + " · " + roomCode : "正在连接好友排行 · 暂显示本机记录";
   if (!rows.length) $("board-note").textContent += " · 暂无成绩";
   let rank = 0, last = -1;
   const items = rows.map((row,i) => {
@@ -1560,7 +1561,15 @@ async function connect() {
   if (cloud) return cloud;
   if (!cloudPending) {
     cloudPending = (async () => {
-      const {createClient} = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+      await new Promise((resolve,reject)=>{
+        if(window.supabase?.createClient) { resolve(); return; }
+        const script=document.createElement("script");
+        script.src="./supabase.js";
+        script.onload=resolve;
+        script.onerror=()=>{script.remove();reject(Error("排行榜客户端加载失败"));};
+        document.head.append(script);
+      });
+      const {createClient} = window.supabase;
       const client = createClient(CLOUD.url,CLOUD.publishableKey);
       const session = await client.auth.getSession();
       if(session.error) throw session.error;
@@ -1594,26 +1603,27 @@ async function syncScore() {
       if (sending === revision) break;
     }
     $("sync-notice").hidden = true;
-    if (board.open || game?.done) void refreshScores();
+    if (!liveConnected) void refreshScores();
   } catch {
     $("sync-notice").hidden = false;
   } finally { syncing = false; }
 }
 async function refreshScores() {
   if (!cloudEnabled) return;
-  const request = ++boardRevision;
+  if (boardLoading) { boardNeedsRefresh=true; return; }
+  boardLoading=true;
   try {
     const client = await connect();
     const {data,error} = await client.from("christmas_climbs").select("id,nickname,score,answered,finished,has_hand")
       .eq("room",roomCode).order("score",{ascending:false}).order("id").limit(1000);
     if (error) throw error;
-    if (request !== boardRevision) return;
     cloudScores = data;
-  } catch {
-    if (request !== boardRevision) return;
-    cloudScores = null;
+  } catch { liveConnected=false; }
+  finally {
+    boardLoading=false;
+    renderBoard();
+    if(boardNeedsRefresh) { boardNeedsRefresh=false; void refreshScores(); }
   }
-  renderBoard();
 }
 function openBoard() {
   if (!board.open) board.showModal();
@@ -1623,8 +1633,17 @@ function openBoard() {
 async function watchScores() {
   if (!cloudEnabled) return;
   void refreshScores();
+  if(!fallbackTimer) fallbackTimer=setInterval(()=>{
+    if(!document.hidden && (board.open || game)) {
+      if(!liveConnected) void watchScores();
+      else void refreshScores();
+    }
+  },12000);
   try {
     const client = await connect();
+    const {data,error} = await client.auth.getSession();
+    if(error || !data.session) throw error || Error("Session unavailable");
+    await client.realtime.setAuth(data.session.access_token);
     if(leaderboardChannel) return;
     leaderboardChannel = client.channel("christmas-" + roomCode).on("postgres_changes", {
       event: "*", schema:"public", table:"christmas_climbs", filter:"room=eq." + roomCode
@@ -1632,7 +1651,9 @@ async function watchScores() {
       clearTimeout(boardTimer);
       boardTimer = setTimeout(refreshScores,220);
     }).subscribe(status=>{
-      if (status==="SUBSCRIBED") void refreshScores();
+      liveConnected = status==="SUBSCRIBED";
+      if(liveConnected) void refreshScores();
+      renderBoard();
     });
   } catch { renderBoard(); }
 }
